@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   card: {
+    borderColor: 'transparent',
     borderRadius: 16,
+    borderWidth: 2,
     overflow: 'hidden',
     width: 128,
   },
@@ -21,6 +23,5 @@ export const styles = StyleSheet.create({
   selectedCard: {
     backgroundColor: '#DBEAFE',
     borderColor: '#2563EB',
-    borderWidth: 2,
   },
 });

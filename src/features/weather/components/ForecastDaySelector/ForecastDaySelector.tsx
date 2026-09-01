@@ -28,7 +28,7 @@ export function ForecastDaySelector({
           <ForecastDayCard
             day={day}
             key={day.date}
-            onPress={() => onSelect(day.date)}
+            onSelect={onSelect}
             selected={day.date === selectedDate}
           />
         ))}

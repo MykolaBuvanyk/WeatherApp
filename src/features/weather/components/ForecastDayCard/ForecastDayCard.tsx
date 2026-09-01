@@ -1,3 +1,4 @@
+import { memo, useCallback, useMemo } from 'react';
 import { Image, View } from 'react-native';
 import { Surface, Text, TouchableRipple } from 'react-native-paper';
 
@@ -7,14 +8,24 @@ import { styles } from './ForecastDayCard.styles';
 interface ForecastDayCardProps {
   day: ForecastDay;
   selected: boolean;
-  onPress: () => void;
+  onSelect: (date: string) => void;
 }
 
-export function ForecastDayCard({
+function ForecastDayCardComponent({
   day,
   selected,
-  onPress,
+  onSelect,
 }: ForecastDayCardProps) {
+  const iconSource = useMemo(
+    () => ({
+      uri: `https://openweathermap.org/img/wn/${day.icon}@2x.png`,
+    }),
+    [day.icon],
+  );
+  const handlePress = useCallback(() => {
+    onSelect(day.date);
+  }, [day.date, onSelect]);
+
   return (
     <Surface
       elevation={selected ? 3 : 1}
@@ -23,7 +34,7 @@ export function ForecastDayCard({
       <TouchableRipple
         accessibilityLabel={`Select ${day.dateLabel}`}
         accessibilityRole="button"
-        onPress={onPress}
+        onPress={handlePress}
         style={styles.ripple}
       >
         <View style={styles.content}>
@@ -31,9 +42,8 @@ export function ForecastDayCard({
           {day.icon ? (
             <Image
               accessibilityLabel={day.description}
-              source={{
-                uri: `https://openweathermap.org/img/wn/${day.icon}@2x.png`,
-              }}
+              fadeDuration={0}
+              source={iconSource}
               style={styles.icon}
             />
           ) : null}
@@ -43,3 +53,5 @@ export function ForecastDayCard({
     </Surface>
   );
 }
+
+export const ForecastDayCard = memo(ForecastDayCardComponent);
